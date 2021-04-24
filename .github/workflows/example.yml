@@ -59,7 +59,7 @@ jobs:
           image: ${{ env.IMAGE_PATH }}
           namespace: ${{ env.TEST_NAMESPACE }}
           port: ${{ env.APP_PORT }}
-          create_pull_secret_from: podman
+          create_pull_secret_from: docker
           # registry: quay.io
           # registry_username: diagrawa
           # registry_password: ${{ secrets.REGISTRY_PASSWORD }}

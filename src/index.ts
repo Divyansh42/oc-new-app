@@ -67,9 +67,8 @@ async function run(): Promise<void> {
 
     await Deploy.getDeployment(appSelector, namespaceArg);
 
-    let route = await Deploy.getRoute(appName, namespaceArg);
     // To make it appear as a URL
-    route = `http://${route}`;
+    let route = `http://${await Deploy.getRoute(appName, namespaceArg)}`;
     ghCore.info(`✅ ${appName} is exposed at ${route}`);
 
     ghCore.setOutput(Outputs.ROUTE, route);

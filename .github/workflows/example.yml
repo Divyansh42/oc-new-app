@@ -41,12 +41,14 @@ jobs:
           insecure_skip_tls_verify: true
           namespace: ${{ env.TEST_NAMESPACE }}
 
-      - name: Podman login
-        uses: redhat-actions/podman-login@v1
-        with:
-          registry: quay.io
-          username: diagrawa
-          password: ${{ secrets.REGISTRY_PASSWORD }}
+      # - name: Podman login
+      #   uses: redhat-actions/podman-login@v1
+      #   with:
+      #     registry: quay.io
+      #     username: diagrawa
+      #     password: ${{ secrets.REGISTRY_PASSWORD }}
+
+      - run: echo "${{ secrets.REGISTRY_PASSWORD }}" | docker login quay.io -u diagrawa --password-stdin
 
       # This step will create a deployment, service, and route to run your app and expose it to the internet.
       - name: Create and expose app

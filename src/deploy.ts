@@ -48,7 +48,7 @@ namespace Deploy {
      * @param namespace Namespace where service is created
      */
     export async function patchSvc(appName: string, port: string, namespaceArg?: string): Promise<void> {
-        ghCore.info(`⏳ Patching service with the port ${port} ...`);
+        ghCore.info(`⏳ Patching service with the port "${port}" ...`);
         const portInt = Number(port);
         const patchJson = {
             spec: {
@@ -76,7 +76,7 @@ namespace Deploy {
      * @param namespace Namespace where created app exists
      */
     export async function exposeSvc(appName: string, svcPort: string, namespaceArg?: string): Promise<void> {
-        ghCore.info(`Exposing the route for ${appName} service...`);
+        ghCore.info(`Exposing the route for "${appName}" service...`);
         const ocOptions = Oc.getOptions({ port: svcPort });
         const ocExecArgs = [ Oc.Commands.Expose, Oc.SubCommands.Service, appName, ...ocOptions ];
         if (namespaceArg) {
@@ -106,7 +106,7 @@ namespace Deploy {
      * @param namespace Namespace in which created app exists
      */
     export async function getRoute(appName: string, namespaceArg?: string): Promise<string> {
-        ghCore.info(`⏳ Fetching route of the ${appName} application...`);
+        ghCore.info(`⏳ Fetching route of the "${appName}" application...`);
         const jsonPath = "{.spec.host}";
         const outputOcOptions = Oc.getOptions({ output: "" });
         const ocExecArgs = [
@@ -126,11 +126,11 @@ namespace Deploy {
     ): Promise<void> {
         // check if pull secret exists or not
         if (await isPullSecretExists(pullSecretName, namespaceArg)) {
-            ghCore.info(`Secret ${pullSecretName} already present, using this secret`);
+            ghCore.info(`Secret "${pullSecretName}" already present, using this secret`);
             return;
         }
 
-        ghCore.info(`⏳ Creating pull secret using auth file present at ${authFilePath}.`);
+        ghCore.info(`⏳ Secret doesn't exist. Creating pull secret using auth file present at ${authFilePath}.`);
         const ocOptions = Oc.getOptions({
             "from-file": `.dockerconfigjson=${authFilePath}`, type: "kubernetes.io/dockerconfigjson",
         });
@@ -153,11 +153,11 @@ namespace Deploy {
     ): Promise<void> {
         // check if pull secret exists or not
         if (await isPullSecretExists(pullSecretName, namespaceArg)) {
-            ghCore.info(`Secret ${pullSecretName} already present, using this secret`);
+            ghCore.info(`Secret $"{pullSecretName}" already present, using this secret`);
             return;
         }
 
-        ghCore.info(`⏳ Creating pull secret using provided image registry credentials...`);
+        ghCore.info(`⏳ Secret doesn't exist. Creating pull secret using provided image registry credentials...`);
         const ocOptions = Oc.getOptions({
             "docker-server": registryServer, "docker-username": registryUsername, "docker-password": registryPassword,
         });
@@ -203,7 +203,7 @@ namespace Deploy {
     }
 
     export async function isPullSecretExists(pullSecretName: string, namespaceArg?: string): Promise<boolean> {
-        ghCore.info(`🔎 Checking if secret "${pullSecretName} exists"`);
+        ghCore.info(`🔎 Checking if secret "${pullSecretName}" exists`);
         const ocExecArgs = [
             Oc.Commands.Get, Oc.SubCommands.Secret, pullSecretName,
         ];
@@ -222,7 +222,7 @@ namespace Deploy {
     }
 
     async function checkPullSecretWithLabel(pullSecretName: string, namespaceArg?: string): Promise<boolean> {
-        ghCore.info(`🔎 Checking if secret "${pullSecretName} with "${secretLabel}" exists"`);
+        ghCore.info(`🔎 Checking if secret "${pullSecretName} with "${secretLabel}" exists`);
         const jsonPath = "{.items[*].metadata.name}";
         const ocOptions = Oc.getOptions({ selector: secretLabel, output: "" });
 

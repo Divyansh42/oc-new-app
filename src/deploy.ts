@@ -222,7 +222,7 @@ namespace Deploy {
     }
 
     async function checkPullSecretWithLabel(pullSecretName: string, namespaceArg?: string): Promise<boolean> {
-        ghCore.info(`🔎 Checking if secret "${pullSecretName} with "${secretLabel}" exists`);
+        ghCore.info(`🔎 Checking if secret "${pullSecretName}" with label "${secretLabel}" exists`);
         const jsonPath = "{.items[*].metadata.name}";
         const ocOptions = Oc.getOptions({ selector: secretLabel, output: "" });
 
